@@ -1,6 +1,16 @@
 = mini_gauge
 
-Description goes here.
+Mini Gauge is a project based off of railroad to provide nice Graphviz documentation for a Ruby on Rails project.  It was created to solve a few internal concerns with railroad, namely:
+
+* It loads within the project environment, so any customizations or models available in the environment are available for documentation
+* It comes with support for defining which models and relations appear, instead of everything on one graph
+* It supports instances of objects becoming graphviz objects
+
+When documenting a large project with 134 models and counting, railroad was useful but too large.  Additionally, we needed to show both the relations between the classes and what specific instances looked like before and after an operation.  
+
+MiniGauge is loaded within the application and extends ActiveRecord to build a Graphviz dot format document, and to append an instance or class and relations to the document.  It comes with a sample rakefile to show how to build documentation on a per-class basis, but can be expanded to document extended relations or instances.
+
+It is currently in use internally as a library module, this gem is currently under development as a port of the internal library.
 
 == Note on Patches/Pull Requests
  
@@ -14,4 +24,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 James Prior. See LICENSE for details.
+Copyright (c) 2010 ASEE. See LICENSE for details.
