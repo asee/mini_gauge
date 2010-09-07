@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "mini_gauge"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{s one-line summary of your gem}
+    gem.description = %Q{ longer description of your gem}
     gem.email = "james@mabonus.net"
     gem.homepage = "http://github.com/jamesprior/mini_gauge"
     gem.authors = ["James Prior"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.files = FileList['lib/**/*.rb', 'bin/*', '[A-Z]*', 'test/**/*', 'lib/tasks/*.rake'].to_a
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
