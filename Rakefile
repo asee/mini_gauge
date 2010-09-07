@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{s one-line summary of your gem}
     gem.description = %Q{ longer description of your gem}
     gem.email = "james@mabonus.net"
-    gem.homepage = "http://github.com/jamesprior/mini_gauge"
+    gem.homepage = "http://github.com/asee/mini_gauge"
     gem.authors = ["James Prior"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     gem.files = FileList['lib/**/*.rb', 'bin/*', '[A-Z]*', 'test/**/*', 'lib/tasks/*.rake'].to_a
