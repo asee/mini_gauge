@@ -1,0 +1,6 @@
+This gem includes rake tasks designed to be run from within a rails application.  To enable them, create or find an existing
+rakefile from your project and add the following line:
+
+Dir["#{Gem.searcher.find('mini_gauge').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
+
+
