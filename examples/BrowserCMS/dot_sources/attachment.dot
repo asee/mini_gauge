@@ -1,0 +1,13 @@
+digraph model_diagram {
+	graph[overlap=false, splines=true]
+	_diagram_info [shape="plaintext", label="Attachment model associations \lDate: Feb 08 2011 - 18:16\lMigration version: 20091109175123\lDescription: \l\l", fontsize=14]
+	"Attachment" [label="{Attachment | version :integer\lfile_path :string\lfile_location :string\lfile_extension :string\lfile_type :string\lfile_size :integer\lname :string\lpublished :boolean\ldeleted :boolean\larchived :boolean \l} ", shape="Mrecord"]
+	"User" [label="{User | login :string\lfirst_name :string\llast_name :string\lemail :string\lexpires_at :datetime\lremember_token :string\lremember_token_expires_at :datetime\lreset_token :string \l} ", shape="Mrecord"]
+	"Attachment::Version" [label="{Attachment::Version | version :integer\lfile_path :string\lfile_location :string\lfile_extension :string\lfile_type :string\lfile_size :integer\lname :string\lpublished :boolean\ldeleted :boolean\larchived :boolean\lversion_comment :string \l} ", shape="Mrecord"]
+	"SectionNode" [label="{SectionNode | node_type :string \l} ", shape="Mrecord"]
+
+ "Attachment" -> "User" [arrowtail="odot", dir="both", arrowhead="dot", label="created_by"]
+  "Attachment" -> "Attachment::Version" [arrowtail="crow", dir="both", arrowhead="dot", label="versions"]
+  "Attachment" -> "User" [arrowtail="odot", dir="both", arrowhead="dot", label="updated_by"]
+  "Attachment" -> "SectionNode" [arrowtail="odot", dir="both", arrowhead="dot"]
+ }

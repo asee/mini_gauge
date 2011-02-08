@@ -1,0 +1,17 @@
+digraph model_diagram {
+	graph[overlap=false, splines=true]
+	_diagram_info [shape="plaintext", label="Section model associations \lDate: Feb 08 2011 - 18:16\lMigration version: 20091109175123\lDescription: \l\l", fontsize=14]
+	"Section" [label="{Section | name :string\lpath :string\lroot :boolean\lhidden :boolean \l} ", shape="Mrecord"]
+	"SectionNode" [label="{SectionNode | node_type :string \l} ", shape="Mrecord"]
+	"Group" [label="{Group | name :string\lcode :string \l} ", shape="Mrecord"]
+	"Page" [label="{Page | version :integer\lname :string\ltitle :string\lpath :string\ltemplate_file_name :string\ldescription :text\lkeywords :text\llanguage :string\lcacheable :boolean\lhidden :boolean\lpublished :boolean\ldeleted :boolean\larchived :boolean \l} ", shape="Mrecord"]
+	"GroupSection" [label="{GroupSection |  \l} ", shape="Mrecord"]
+
+ "Section" -> "SectionNode" [arrowtail="crow", dir="both", arrowhead="dot", label="child_nodes"]
+  "Section" -> "Group" [arrowtail="crow", dir="both", arrowhead="crow"]
+  "Section" -> "Section" [arrowtail="crow", dir="both", arrowhead="crow"]
+  "Section" -> "SectionNode" [arrowtail="odot", dir="both", arrowhead="dot", label="node"]
+  "Section" -> "Page" [arrowtail="crow", dir="both", arrowhead="crow"]
+  "Section" -> "GroupSection" [arrowtail="crow", dir="both", arrowhead="dot"]
+  "Section" -> "SectionNode" [arrowtail="crow", dir="both", arrowhead="dot", label="child_sections"]
+ }

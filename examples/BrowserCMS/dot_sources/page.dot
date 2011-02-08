@@ -1,0 +1,19 @@
+digraph model_diagram {
+	graph[overlap=false, splines=true]
+	_diagram_info [shape="plaintext", label="Page model associations \lDate: Feb 08 2011 - 18:16\lMigration version: 20091109175123\lDescription: \l\l", fontsize=14]
+	"Page" [label="{Page | version :integer\lname :string\ltitle :string\lpath :string\ltemplate_file_name :string\ldescription :text\lkeywords :text\llanguage :string\lcacheable :boolean\lhidden :boolean\lpublished :boolean\ldeleted :boolean\larchived :boolean \l} ", shape="Mrecord"]
+	"Connector" [label="{Connector | page_version :integer\lconnectable_type :string\lconnectable_version :integer\lcontainer :string \l} ", shape="Mrecord"]
+	"User" [label="{User | login :string\lfirst_name :string\llast_name :string\lemail :string\lexpires_at :datetime\lremember_token :string\lremember_token_expires_at :datetime\lreset_token :string \l} ", shape="Mrecord"]
+	"Task" [label="{Task | comment :text\ldue_date :date\lcompleted_at :datetime \l} ", shape="Mrecord"]
+	"Page::Version" [label="{Page::Version | version :integer\lname :string\ltitle :string\lpath :string\ltemplate_file_name :string\ldescription :text\lkeywords :text\llanguage :string\lcacheable :boolean\lhidden :boolean\lpublished :boolean\ldeleted :boolean\larchived :boolean\lversion_comment :string \l} ", shape="Mrecord"]
+	"PageRoute" [label="{PageRoute | name :string\lpattern :string\lcode :text \l} ", shape="Mrecord"]
+	"SectionNode" [label="{SectionNode | node_type :string \l} ", shape="Mrecord"]
+
+ "Page" -> "Connector" [arrowtail="crow", dir="both", arrowhead="dot"]
+  "Page" -> "User" [arrowtail="odot", dir="both", arrowhead="dot", label="created_by"]
+  "Page" -> "Task" [arrowtail="crow", dir="both", arrowhead="dot"]
+  "Page" -> "Page::Version" [arrowtail="crow", dir="both", arrowhead="dot", label="versions"]
+  "Page" -> "PageRoute" [arrowtail="crow", dir="both", arrowhead="dot"]
+  "Page" -> "User" [arrowtail="odot", dir="both", arrowhead="dot", label="updated_by"]
+  "Page" -> "SectionNode" [arrowtail="odot", dir="both", arrowhead="dot"]
+ }

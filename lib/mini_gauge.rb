@@ -219,13 +219,15 @@ module MiniGauge
     
     # Returns the attributes of this node for dot graphs
     def dot_node_attributes
-      
-      hidden_fields = MiniGauge::HIDDEN_FIELDS << "#{self.table_name}_count"
+      if self.table_exists?
+        hidden_fields = MiniGauge::HIDDEN_FIELDS << "#{self.table_name}_count"
 
-      return self.content_columns.reject{|x| hidden_fields.include?(x.name)}.collect{ |col|
-        "#{col.name} :#{col.type.to_s}"
-      }
-      
+        return self.content_columns.reject{|x| hidden_fields.include?(x.name)}.collect{ |col|
+          "#{col.name} :#{col.type.to_s}"
+        }
+      else
+        return ["Table doesn't exist"]
+      end
     end
     
     # Accepts a Graph object and fills it with the relations for this object
@@ -262,14 +264,17 @@ module MiniGauge
     def to_dot_notation(opts = {})
       @graph = MiniGauge::Graph.new(opts)
       
-      @graph.nodes << {:name => self.dot_node_name, :attributes => self.dot_node_attributes}
-      
-      fill_with_relations(@graph)
+      self.add_to_graph(@graph)
       
       yield(@graph) if block_given?
       
       return @graph.to_dot_notation
     
+    end
+    
+    def add_to_graph(graph)
+      graph.nodes << {:name => self.dot_node_name, :attributes => self.dot_node_attributes}
+      self.fill_with_relations(graph)
     end
         
   end

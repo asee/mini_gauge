@@ -1,0 +1,12 @@
+digraph model_diagram {
+	graph[overlap=false, splines=true]
+	_diagram_info [shape="plaintext", label="PageRoute model associations \lDate: Feb 08 2011 - 18:16\lMigration version: 20091109175123\lDescription: \l\l", fontsize=14]
+	"PageRoute" [label="{PageRoute | name :string\lpattern :string\lcode :text \l} ", shape="Mrecord"]
+	"PageRouteRequirement" [label="{PageRouteRequirement | name :string\lvalue :string \l} ", shape="Mrecord"]
+	"PageRouteCondition" [label="{PageRouteCondition | name :string\lvalue :string \l} ", shape="Mrecord"]
+	"Page" [label="{Page | version :integer\lname :string\ltitle :string\lpath :string\ltemplate_file_name :string\ldescription :text\lkeywords :text\llanguage :string\lcacheable :boolean\lhidden :boolean\lpublished :boolean\ldeleted :boolean\larchived :boolean \l} ", shape="Mrecord"]
+
+ "PageRoute" -> "PageRouteRequirement" [arrowtail="crow", dir="both", arrowhead="dot", label="requirements"]
+  "PageRoute" -> "PageRouteCondition" [arrowtail="crow", dir="both", arrowhead="dot", label="conditions"]
+  "PageRoute" -> "Page" [arrowtail="odot", dir="both", arrowhead="dot"]
+ }

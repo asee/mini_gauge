@@ -1,3 +1,8 @@
+# Make this file available in your environment!  Copy it or add the following to a rakefile:
+#
+# Dir["#{Gem.searcher.find('mini_gauge').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
+#
+
 namespace :doc do
     
   namespace :mini_gauge do
@@ -15,8 +20,19 @@ namespace :doc do
     
     #The locations of where we place our files
     CLASS_ROOT = File.join(RAILS_ROOT, "doc", "graphs", "dot_sources", "classes") #Where the output plaintext goes for classes
+    MODEL_ROOT = File.join(RAILS_ROOT, "doc", "graphs", "dot_sources", "models") #Where the output plaintext goes for models (ie, the ones with data)
     GRAPH_OUTPUT_ROOT = File.join(RAILS_ROOT, "doc", "graphs") # Where the png/pdf/whatever graphs go
-        
+            
+    # A helper to save a model.  Models will include several instances of classes with data and demonstrate some relation
+    def saving_model(name, subfolders = []) 
+      output_dir = File.join(MODEL_ROOT, *subfolders)
+      FileUtils.mkdir_p(output_dir) unless File.directory?(output_dir)
+      
+      location = File.join(output_dir, name)
+      File.open(location, "w") {|f| f.write( yield ) }
+    end
+    
+    
     #Classes just inspect the class itself and it's relation, no data is included
     def saving_class(name, subfolders = []) 
       output_dir = File.join(CLASS_ROOT, *subfolders)
@@ -58,6 +74,12 @@ namespace :doc do
 
     task :build_pdfs do
       raise "Cannot create graphs because the 'dot' command is not found" unless system("which dot")
+      
+      Dir.glob(File.join(MODEL_ROOT,"**","*.dot")).each do |filename|
+        destination = File.join(GRAPH_OUTPUT_ROOT, "models", filename.gsub(MODEL_ROOT,"").gsub(/\.dot$/,".pdf"))
+        FileUtils.mkdir_p(File.dirname(destination))
+        system("dot -Tpdf -o'#{destination}' '#{filename}'")
+      end
             
       Dir.glob(File.join(CLASS_ROOT,"**","*.dot")).each do |filename|
         destination = File.join(GRAPH_OUTPUT_ROOT, "classes", filename.gsub(CLASS_ROOT,"").gsub(/\.dot$/,".pdf"))
@@ -77,10 +99,23 @@ namespace :doc do
     end
     
     task :generate_complete_graph => :environment_for_graph do
-      saving_class("all_classes_in_project.dot") do
-        ActiveRecord::Base.send(:subclasses).collect do |klass|
-          klass.to_dot_notation(:title => "#{klass.name} model associations")
-        end.join("\n")
+      saving_class("all_classes_in_app.dot") do
+        @graph = MiniGauge::Graph.new(:title => "All classes in app", :description => "The complete set of classes and their relations")
+        
+        # No lazy loading here!
+        Dir['app/models/**/*.rb'].each{|f| require f}
+        
+        # Run through all the reflections first in an attempt to load everything before getting all the subclasses.
+        ActiveRecord::Base.send(:subclasses).each do |klass|
+          begin klass.reflect_on_all_associations.each(&:klass) rescue nil end
+        end
+        
+        ActiveRecord::Base.send(:subclasses).each do |klass|
+          klass.add_to_graph(@graph)
+        end
+
+        @graph.to_dot_notation
+        
       end
     end
     
