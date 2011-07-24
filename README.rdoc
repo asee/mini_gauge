@@ -13,11 +13,11 @@ MiniGauge is loaded within the application and extends ActiveRecord to build a G
 This gem includes rake tasks designed to be run from within a rails application.  To enable them, create or find an existing
 rakefile from your project and add the following line:
 
-Dir["#{Gem.searcher.find('mini_gauge').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
+  Dir["#{Gem.searcher.find('mini_gauge').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
 
 Then from the console run
 
-doc:mini_gauge:graph
+  doc:mini_gauge:graph
 
 to produce a set of dot source files and graphs in doc/graphs
 
